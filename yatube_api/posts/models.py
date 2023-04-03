@@ -12,7 +12,7 @@ class Post(models.Model):
     image = models.ImageField(
         upload_to='posts/', null=True, blank=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.text
 
 
@@ -24,3 +24,17 @@ class Comment(models.Model):
     text = models.TextField()
     created = models.DateTimeField(
         'Дата добавления', auto_now_add=True, db_index=True)
+
+
+class Group(models.Model):
+    title = models.CharField(max_length=64)
+    description = models.TextField()
+    slug = models.SlugField(unique=True)
+
+    def __str__(self) -> str:
+        return self.title
+
+
+class Follow(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='follows')
+    following = models.ForeignKey(User, on_delete=models.CASCADE, related_name='followings')

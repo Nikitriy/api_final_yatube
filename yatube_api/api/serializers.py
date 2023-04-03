@@ -2,15 +2,16 @@ from rest_framework import serializers
 from rest_framework.relations import SlugRelatedField
 
 
-from posts.models import Comment, Post
+from posts.models import Comment, Follow, Group, Post, User
 
 
 class PostSerializer(serializers.ModelSerializer):
     author = SlugRelatedField(slug_field='username', read_only=True)
 
     class Meta:
-        fields = '__all__'
+        fields = ('id', 'author', 'text', 'pub_date', 'image', 'group')
         model = Post
+        read_only_fields = ('id', 'author', 'pub_date')
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -19,5 +20,28 @@ class CommentSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        fields = '__all__'
+        fields = ('id', 'author', 'post', 'text', 'created')
         model = Comment
+        read_only_fields = ('id', 'author', 'post', 'created')
+
+
+class GroupSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        fields = ('id', 'title', 'slug', 'description')
+        model = Group
+        read_only_fields = ('id',)
+
+
+class FollowSerializer(serializers.ModelSerializer):
+    following = serializers.SlugRelatedField(slug_field='username', queryset=User.objects.all())
+    user = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        fields = ('user', 'following')
+        model = Follow
+    
+    def validate(self, data):
+        if data['user'] == data['following']:
+            return serializers.ValidationError('Нельзя подписываться на себя!')
+        return data
