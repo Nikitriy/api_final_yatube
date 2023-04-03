@@ -48,8 +48,8 @@ python manage.py runserver
 
 Get http://127.0.0.1:8000/api/v1/posts выдаст список всех постов сайта
 
-Get http://127.0.0.1:8000/api/v1/posts/<int:pk>/ выдаст конкретный пост по соответствующему id
+Get http://127.0.0.1:8000/api/v1/posts/{int:pk}/ выдаст конкретный пост по соответствующему id
 
-Get http://127.0.0.1:8000/api/v1/posts/<int:pk>/comments выдаст список комментариев конкретного поста
+Get http://127.0.0.1:8000/api/v1/posts/{int:pk}/comments выдаст список комментариев конкретного поста
 
 Post http://127.0.0.1:8000/auth/users/ зарегестрирует пользователя (необходимо в теле запроса передать username и password)
