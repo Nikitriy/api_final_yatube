@@ -11,4 +11,11 @@ class AuthorOrReadOnly(permissions.BasePermission):
         del view
         if request.method in permissions.SAFE_METHODS:
             return True
-        return obj.autor == request.user
+        return obj.author == request.user
+
+
+class ReadOnly(permissions.BasePermission):
+
+    def has_permission(self, request, view):
+        del view
+        return request.method in permissions.SAFE_METHODS
