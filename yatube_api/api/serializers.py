@@ -1,7 +1,6 @@
 from rest_framework import serializers, validators
 from rest_framework.relations import SlugRelatedField
 
-
 from posts.models import Comment, Follow, Group, Post, User
 
 
@@ -51,6 +50,6 @@ class FollowSerializer(serializers.ModelSerializer):
 
     def validate_following(self, value):
         """Запрещает подписываться на себя."""
-        if self.context.get('request').user == value:
+        if self.request.user == value:
             raise serializers.ValidationError('Нельзя подписываться на себя!')
         return value

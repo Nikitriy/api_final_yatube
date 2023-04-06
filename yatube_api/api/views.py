@@ -38,8 +38,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user, post=post)
 
     def get_queryset(self) -> list:
-        post = self.getting_post()
-        return post.comments.all()
+        return self.getting_post().comments.all()
 
 
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):
